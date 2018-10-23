@@ -1,0 +1,51 @@
+<script type="text/javascript">
+  FusionCharts.ready(function(){
+    var ${name}charts = new FusionCharts({
+    type: 'thermometer',
+    renderAt: 'chart-${name}',
+    id: '${name}Chart',
+    width: '${hsize}',
+    height: '${vsize}',
+    dataFormat: 'json',
+    dataSource: {
+        "chart": {
+            "caption": "${caption}",
+            "subcaption": "${sub_caption}",
+            "lowerLimit": "${lowLimit}",
+            "upperLimit": "${upLimit}",
+            "numberSuffix": "C",
+            "decimals": "1",
+            "showhovereffect": "1",
+            "thmFillColor": "#008ee4",
+            "showGaugeBorder": "1",
+            "gaugeBorderColor": "#008ee4",
+            "gaugeBorderThickness": "2",
+            "gaugeBorderAlpha": "30",
+            //Customizing gauge fill
+            "gaugeFillColor": "${fillColor}",
+            "gaugeFillAlpha": "70",
+            "thmOriginX": "100",
+            "dataStreamURL": "data/${name}",
+            "refreshInterval": "${refresh}",
+            "adjustTM": "1",
+            "ticksOnRight": "0",
+            "tickMarkDistance": "10",
+            "tickValueDistance": "10",
+            // Major Tick Marks
+            "majorTMNumber": "5",
+            "majorTMHeight": "15",
+            "chartRightMargin": "20",
+            //Minor Tick Marks
+            "minorTMNumber": "3",
+            "minorTMHeight": "10",
+
+            //Tick value step
+            "tickValueStep": "2",
+        },
+        "value": "$$${value}"
+    }
+}
+);
+    ${name}charts.render();
+});
+</script>

@@ -1,0 +1,13 @@
+[Unit]
+Description=System Tool DB Publish Service
+After=opx-cps.service opx-cps-db.service opx-system-utils.service
+Wants=opx-cps.service opx-cps-db.service opx-system-utils.service
+OnFailure=service_onfailure@%n.service
+
+[Service]
+Type=notify
+EnvironmentFile=/etc/opx/opx-environment
+ExecStart=/usr/bin/python -u /usr/lib/opx/sys-utils/system_status_db.py
+
+[Install]
+WantedBy=multi-user.target

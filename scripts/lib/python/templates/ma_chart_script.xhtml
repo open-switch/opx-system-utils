@@ -1,0 +1,91 @@
+<script type="text/javascript">
+  FusionCharts.ready(function(){
+    var fusion${name} = new FusionCharts({
+    type: 'multiaxisline',
+    renderAt: 'chart-${name}',
+    width: '${hsize}',
+    height: '${vsize}',
+    dataFormat: 'json',
+    dataSource: {
+        "chart": {
+            "caption": "${caption}",
+            "subcaption": "${sub_caption}",
+            "xAxisName": "${xAxis}",
+            "baseFontColor" : "#333333",
+            "baseFont" : "Helvetica Neue,Arial",
+            //"numvdivlines": "2",
+            "paletteColors" : "#0075c2,#1aaf5d,#f2c500,#f45b00",
+            "bgColor" : "#ffffff",
+            "canvasBgColor" : "#ffffff",                                 
+            "captionFontSize" : "13",
+            "subcaptionFontSize" : "13",
+            "subcaptionFontBold" : "0",
+            "showBorder" : "0",
+            "showPlotBorder": "0",
+            "showXAxisLine" : "1",
+            "showShadow" : "0",
+            "showCanvasBorder" : "0",
+            "showAlternateHGridColor" : "0",
+            "showalternatevgridcolor": "1",
+            "usePlotGradientColor" :"0",
+            "divlineColor" : "#999999",
+            "divlineThickness" : "1",
+            "divLineIsDashed" : "1",
+            "divLineDashLen" : "1",
+            "divLineGapLen" : "1",
+            "xAxisLineThickness" : "1",
+            "xAxisLineColor" : "#999999",
+            "legendBorderAlpha": "0",
+            "legendShadow": "0",
+            "alignCaptionWithCanvas": "0",
+            "showValues": "0",
+            //"labeldisplay": "ROTATE",
+            //Theme
+            "theme": "fint"
+        },
+        "categories": [{
+            "category": ${timestamps}
+        }],
+        "axis": [{
+            "title": "${yAxis1Title}",
+            "tickWidth": "5",
+            "numdivlines": "10",
+            "numbersuffix": "${yAxis1NumberSuffix}",
+            "divlineDashed": "1",
+            "dataset": [{
+                "seriesname": "${yAxis1Title}",
+                "data": ${yAxis1Data}
+            }]
+        }, {
+            "title": "${yAxis2Title}",
+            "axisOnLeft": "0",
+            "tickWidth": "5",
+            "numdivlines": "10",
+            "maxValue" : "${yAxis2Max}",
+            "numbersuffix": "${yAxis2NumberSuffix}",
+            "divlineDashed": "1",
+            "dataset": [{
+                "seriesname": "${yAxis2Title}",
+                "data": ${yAxis2Data}
+            }]
+        }, {
+            "title": "${yAxis3Title}",
+            "axisOnLeft": "0",
+            "tickWidth": "5",
+            "numdivlines": "10",
+            "maxValue" : "${yAxis3Max}",
+            "numbersuffix": "${yAxis3NumberSuffix}",
+            "divlineDashed": "1",
+            "dataset": [{
+                "seriesname": "${yAxis3Title}",
+                "data": ${yAxis3Data}
+            }]
+        }]
+    }
+}
+);
+    fusion${name}.render();
+});
+</script>
+
+

@@ -1,0 +1,226 @@
+<!doctype html>
+<html><head>
+<link rel="shortcut icon" href="$${icon}" type="image/x-icon" />
+<meta http-equiv="cache-control" content="no-cache, must-revalidate, post-check=0, pre-check=0">
+<meta http-equiv="expires" content="Sat, 31 Oct 2014 00:00:00 GMT">
+<meta http-equiv="pragma" content="no-cache">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- SCRIPT Section -->
+<script type="text/javascript" src="scripts/jquery.min.js"></script>
+<script type="text/javascript" src="scripts/fusioncharts.js"></script>
+<script type="text/javascript" src="scripts/fusioncharts.theme.fint.js"></script>
+<!-- Dispatch Time of day -->
+<script type="text/javascript"> 
+    function reloadonce(){
+        if( window.localStorage )
+          {
+            if( !localStorage.getItem( 'firstLoad' ) )
+            {
+              localStorage[ 'firstLoad' ] = true;
+              window.location.reload();
+            }  
+            else
+              localStorage.removeItem( 'firstLoad' );
+          }
+    }
+    function pageLoad(){
+        reloadonce();
+        display_ct();
+    }
+    function addLeadingZero(num) {
+        return (num <= 9) ? ("0" + num) : num;
+    }
+    function display_c(){
+        var refresh=1000; // Refresh rate in milli seconds
+        mytime=setTimeout('display_ct()',refresh)
+    }
+
+    function display_ct() {
+        var strcount
+        var x = new Date()
+        var x1=addLeadingZero(x.getMonth()+1) + "/" + addLeadingZero(x.getDate()) + "/" + x.getFullYear(); 
+        x1 = x1 + " - " + addLeadingZero(x.getHours( ))+ ":" + addLeadingZero(x.getMinutes()) + ":" + addLeadingZero(x.getSeconds());
+        document.getElementById('ct').innerHTML = x1;
+
+        tt=display_c();
+    }
+</script>
+<!-- widget for overall status -->
+<script type="text/javascript">
+  FusionCharts.ready(function(){
+    var fusionStatus = new FusionCharts({
+    type: 'bulb',
+    renderAt: 'chart-status',
+    id: 'statusChart',
+    width: '140',
+    height: '135',
+    dataFormat: 'json',
+    dataSource: {
+        "chart": {
+            "caption": "Overall Status",
+            "upperlimit": "100",
+            "lowerlimit": "-60",
+            "captionPadding": "10",
+            "showshadow": "1",
+            "showvalue": "1",
+            "useColorNameAsValue": "1",
+            "placeValuesInside": "1",
+            "valueFontSize": "13",
+            //Tooltext
+            "plottooltext": "Status. Click for more detail.",
+            //Theme
+        },
+        "colorrange": {
+            "color": [{
+                "minvalue": "1",
+                "maxvalue": "100",
+                "label": "ALARM",
+                "code": "#ff0000"
+            }, {
+                "minvalue": "-100",
+                "maxvalue": "-1",
+                "label": "WARNING",
+                "code": "#ff9900"
+            }, {
+                "minvalue": "0",
+                "maxvalue": "0",
+                "label": "CLEAR",
+                "code": "#00ff00"
+            }]
+        },
+        "value": "$${statusValue}"
+    },
+    "events": {
+        "rendered": function(evtObj, argObj) {
+            evtObj.sender.chartInterval = setInterval(function() {
+                xmlHttp = new XMLHttpRequest();
+                xmlHttp.open( "GET", 'fetchoverall', false );
+                xmlHttp.send( null );
+                var num = xmlHttp.responseText;
+                FusionCharts("statusChart").feedData("&value=" + num);
+            }, 10000);
+        },
+        "disposed": function(evt, arg) {
+            clearInterval(evt.sender.chartInterval);
+        }
+    }
+}
+);
+    fusionStatus.render();
+});
+</script>
+${GageObjs}
+<!-- fucntion to request PID data from URL -->
+<script type="text/javascript">
+   $$$$(document).ready(function() {
+    $$$$('input[name="pidDet"]').change(function(){
+      if ($$$$(this).val())
+      {
+        $$$$("input[name='pidSubmit']").removeAttr('disabled');
+      }
+    });
+   });
+</script>
+<!-- STYLE section -->
+<style>
+    .hide { position:absolute; top:-1px; left:-1px; width:1px; height:1px; }
+    .right{
+        float:right;
+    }
+
+    .left{
+        float:left;
+    }
+    .main-table {
+                border: 1px solid blue;
+                width: $${width}px;
+               }
+    .main-table-hdr {
+                font-family: Verdana;
+                font-size: 12px;
+                background-color:#$${color};
+                text-align: center;
+               }
+    .main-table-tr {
+                border: 1px solid blue;
+               }
+    body {
+        width: $${page_width}px ;
+        font-family: Verdana;
+        font-size: 14px;
+    }
+    input[type=input] {
+        font-family: Verdana;
+        font-size: 14px;
+        text-align: center;
+    }
+    input[type=submit]:enabled{
+        background-color: #$${color};
+        background-image: -webkit-gradient(linear, left top, left bottom, from(#$${color}), to(#88bcf2));
+        background-image: -webkit-linear-gradient(top, #$${color}, #88bcf2);
+        background-image:    -moz-linear-gradient(top, #$${color}, #88bcf2);
+        background-image:      -o-linear-gradient(top, #$${color}, #88bcf2);
+        background-image:         linear-gradient(to bottom, #$${color}, #88bcf2);
+        border-radius:5px;
+        display: inline-block;
+        line-height: 15px;
+        padding:7px 12px;
+        margin:2;
+        border: 1px solid #88bcf2; 
+        color: #FFFFFF;
+        font-size: 15px;
+        font-weight: bold;
+        letter-spacing: -1px;
+        text-shadow: 1 1px 1px #70A7E0;
+        cursor:pointer;
+    }
+    input[type=submit]:disabled{
+        border-radius:5px;
+        display: inline-block;
+        line-height: 15px;
+        padding:7px 12px;
+        margin:2;
+        border: 1px solid #88bcf2; 
+        color: #686a69;
+        font-size: 15px;
+        font-weight: bold;
+        letter-spacing: -1px;
+        text-shadow: 1 1px 1px #70A7E0;
+    } 
+</style>
+<title>$${title}</title></head>
+<body onload=pageLoad();>
+<span style="font-family:Calibri; font-size: 34px; color: #$${color};">
+$${logo}&nbsp;<span style="line-height:$${height}px; vertical-align: bottom;">$${title}</span></span>
+<hr>
+<table style="width=\"$${width}\"">
+<tr>
+  <td><a href='report/overall'><div id="chart-status">STATUS!</div></a></td>
+  $${blank_cells}
+  <td valign="top"><span style="font-size: 11px;"><span class="right" id='ct'></span>
+                                        <br><strong>Host</strong>:<span class="right">$${host}</span>
+                                        <br><strong>IP</strong>:<span class="right">$${ip}</span>
+                                        <br><strong>Cores</strong>:<span class="right">$${cores}</span>
+                                        <br>$${extras}</span></td>
+${codes}
+</tr>
+</table>
+<hr />
+${charts}
+<hr />
+<table style="height: 21px;" width="$${width}" cellpadding="5">
+ <tbody>
+ <tr><td><a href="/var/log/sys_status.log"><span style="font-family:Verdana; color: #$${color};">System Status Logs</span></a></td>
+     <td></td></tr>
+ <tr><td><span style="color: #$${color}; font-size: 12px;">$${company} - Sys Status Ver:$${version}</span></td>
+     <td style="text-align: right;"><span style="color: #$${color}; font-size: 12px; ">Data Log Rate: $${refreshRate} sec</span></td></tr>
+ <tr><td><span style="color: #$${color}; font-size: 12px;">$${credit}</span></td>
+</tbody>
+</table>
+</body>
+</html>
+
+
+
+
+

@@ -1,0 +1,6 @@
+#!/bin/bash
+  
+./dn_sys_utils_unittest_gtest
+apt-get update
+apt-get install -y python-pytest
+/usr/bin/python -m pytest ./sys_status_test.py
