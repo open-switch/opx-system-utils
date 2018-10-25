@@ -31,5 +31,5 @@ Description: This package contains system utilities.
 
 Package: opx-system-utils
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-requests
+Depends: ${shlibs:Depends}, ${misc:Depends}, python, ${python:Depends}, python-requests
 Description: This package contains system utilities
