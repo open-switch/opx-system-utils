@@ -12,7 +12,7 @@ Build-Depends: debhelper (>= 9),
  libsystemd-dev,
  python-dev,
  python-requests,
-Standards-Version: 3.9.3
+Standards-Version: 3.9.8
 Vcs-Browser: https://github.com/open-switch/opx-system-utils
 Vcs-Git: https://github.com/open-switch/opx-system-utils.git
 
