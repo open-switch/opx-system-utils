@@ -20,16 +20,17 @@ Package: libopx-system-utils1
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, libopx-common1 (>= 1.4.0), libcurl3-nss
 Description: This package contains system utilities.
-
+ OPX system utilities for monitoring equipment health.
 
 Package: libopx-system-utils-dev
 Architecture: any
 Section: libdevel
 Depends: ${misc:Depends}, libopx-common-dev (>= 1.4.0), libopx-system-utils1 (=${binary:Version})
 Description: This package contains system utilities.
-
+ OPX system utilities for monitoring equipment health.
 
 Package: opx-system-utils
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, python, ${python:Depends}, python-requests
 Description: This package contains system utilities
+ OPX system utilities for monitoring equipment health.
