@@ -10,6 +10,7 @@ Build-Depends: debhelper (>= 9),
  libcurl4-openssl-dev,
  libopx-common-dev (>= 1.4.0),
  libsystemd-dev,
+ pkg-config,
  python-dev,
  python-requests,
 Standards-Version: 3.9.8
