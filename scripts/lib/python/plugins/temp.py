@@ -15,7 +15,7 @@
 # See the Apache Version 2.0 License for specific language governing
 # permissions and limitations under the License.
 #
-import os, sys, time, json
+import os, time, json
 from string import Template
 from random import randint
 import cps, cps_utils
@@ -44,23 +44,23 @@ def opStatusToString(oType):
 # Required Class
 #******************************************************************************
 class SystemStatusPlugin():
-    def __init__ (self, exeCmd, vsize=135, hsize=140, temppath='./templates',
+    def __init__ (self, exeCmd, vsize=135, hsize=135, temppath='./templates',
                   configFile='/etc/sys_status.conf'):
-        self.scrTemp = Template(open(os.path.join(temppath,'thermal_script.xhtml')).read())
-        self.style          = open(os.path.join(temppath,'basic_style.xhtml')).read()
+        with open(os.path.join(temppath,'temp.xhtml')) as tfile:
+            self.scrTemp = Template(tfile.read())
+        with open(os.path.join(temppath,'basic_style.xhtml')) as sfile:
+            self.style = sfile.read()
         self.name           ='temp'
         self.postalarm      = True
         self.plugType       = 'dial'
         self.defaultLimit   = 40.0
-        self.tempLimit      = 0
+        self.tempLimit      = self.defaultLimit
         self.vsize          = vsize
         self.hsize          = hsize
-        self.caption        = 'Temp'
-        self.sub_caption    = "[C]"
+        self.caption        = 'TEMP'
         self.lowLimit       = 0
-        self.upLimit        = 60
-        self.unit           ='C'
-        self.fillColor      = '#008ee4'
+        self.upLimit        = 160
+        self.unit           ='Degree C'
         self.limit          = 0
         self.tempData       = 0
         self.data           = 0
@@ -160,22 +160,25 @@ class SystemStatusPlugin():
         self.timechk = time.time()
 
     def getScripts(self):
-        return self.scrTemp.substitute(dict(name=self.name, 
-                                       vsize=self.vsize,
-                                       hsize=self.hsize,
-                                       caption=self.caption,
-                                       sub_caption=self.sub_caption,
-                                       lowLimit=self.lowLimit,
-                                       upLimit=self.upLimit,
-                                       fillColor=self.fillColor,
-                                       refresh=self.pullRate,
-                                       limit='tempLimit',
-                                       value='tempValue',
-                                       ))
-
+        return ''
 
     def getCodeObject(self):
-        return '<a href=\'report/%s\' title=\"click for details\"><div id="chart-%s">TEMP CHART</div></a>' % (self.name, self.name)
+        self.getConfigData()
+        return (self.scrTemp.substitute(dict(name=self.name,
+                                             current_value=self.data,
+                                             width=self.vsize,
+                                             height=self.hsize,
+                                             unit=self.unit,
+                                             minVal=self.lowLimit,
+                                             maxVal=self.upLimit,
+                                             title=self.caption,
+                                             lowerAlarm=int(float(self.threshold)),
+                                             upperAlarm=int(float(self.threshold)),
+                                             interval=self.pullRate,
+                                             ticks="['0','20','40','60','80','100','120','140','160']"
+                                             )
+                                        )
+                )
 
     def getChartObject(self):
         return ""
@@ -203,7 +206,7 @@ class SystemStatusPlugin():
             <legend>Configurations</legend>
             <table class="main-table">
              <tbody>
-            <tr><td>Tempreture Threshold (%s):</td><td><input name="powerLimit" type="input" value="%s"/></td></tr>
+            <tr><td>Tempreture Threshold (%s):</td><td><input name="tempLimit" type="input" value="%s"/></td></tr>
             </tbody>
             </table>
             <br>&nbsp;Plugin Enabled&nbsp;<input type="radio" id="enable_yes" name="temp_enabled" value="True" %s/>Yes

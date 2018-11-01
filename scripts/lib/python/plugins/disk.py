@@ -14,7 +14,7 @@
 # See the Apache Version 2.0 License for specific language governing
 # permissions and limitations under the License.
 #
-import os, sys, json
+import os, json
 from string import Template
 
 
@@ -22,10 +22,12 @@ from string import Template
 # Required Class
 #******************************************************************************
 class SystemStatusPlugin():
-    def __init__ (self, exeCmd, vsize=135, hsize=140, temppath='./templates',
+    def __init__ (self, exeCmd, vsize=135, hsize=135, temppath='./templates',
                   configFile='/etc/sys_status.conf'):
-        self.scrTemp        = Template(open(os.path.join(temppath,'dial_script.xhtml')).read())
-        self.style          = open(os.path.join(temppath,'basic_style.xhtml')).read()
+        with open(os.path.join(temppath,'dial.xhtml')) as tfile:
+            self.scrTemp = Template(tfile.read())
+        with open(os.path.join(temppath,'basic_style.xhtml')) as sfile:
+            self.style = sfile.read()
         self.name           ='disk'
         self.plugType       = 'dial'
         self.postalarm      = True
@@ -33,14 +35,14 @@ class SystemStatusPlugin():
         self.diskLimit       = self.defaultLimit
         self.vsize          = vsize
         self.hsize          = hsize
-        self.caption        = 'DISK'
-        self.sub_caption    = '% free'
+        self.caption        = 'DISK free'
+        self.sub_caption    = '%'
         self.lowLimit       = 0
         self.upLimit        = 100
         self.numsuffix      = '%'
         self.unit           = self.numsuffix
         self.Rmargin        = 5
-        self.refresh        = 10
+        self.pullRate        = 10
         self.limit          = 0
         self.lowColor       = "e44a00"
         self.upColor        = "6baa01"
@@ -89,26 +91,25 @@ class SystemStatusPlugin():
         return
 
     def getScripts(self):
-        return self.scrTemp.substitute(dict(name=self.name, 
-                                       vsize=self.vsize,
-                                       hsize=self.hsize,
-                                       caption=self.caption,
-                                       sub_caption=self.sub_caption,
-                                       lowLimit=self.lowLimit,
-                                       upLimit=self.upLimit,
-                                       minValue=self.lowLimit,
-                                       maxValue=self.upLimit,
-                                       lowColor=self.lowColor,
-                                       upColor=self.upColor,
-                                       numsuffix=self.numsuffix,
-                                       Rmargin=self.Rmargin,
-                                       refresh=self.refresh,
-                                       limit='diskLimit',
-                                       value='diskValue',
-                                       ))
+        return ''
 
     def getCodeObject(self):
-        return '<a href=\'report/%s\' title=\"click for details\"><div id="chart-%s">DISK CHART</div></a>' % (self.name, self.name)
+        self.getConfigData()
+        return (self.scrTemp.substitute(dict(name=self.name,
+                                             current_value=self.data,
+                                             width=self.vsize,
+                                             height=self.hsize,
+                                             unit=self.unit,
+                                             minVal=self.lowLimit,
+                                             maxVal=self.upLimit,
+                                             title=self.caption,
+                                             lowerAlarm=self.lowLimit,
+                                             upperAlarm=int(float(self.threshold)),
+                                             interval=self.pullRate,
+                                             ticks="['0','20','40','60','80','100']"
+                                             )
+                                        )
+                )
 
     def getChartObject(self):
         return ""

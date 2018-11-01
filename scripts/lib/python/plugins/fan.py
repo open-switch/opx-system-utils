@@ -14,7 +14,7 @@
 # See the Apache Version 2.0 License for specific language governing
 # permissions and limitations under the License.
 #
-import os, sys, json
+import os, json
 from string import Template
 import cps, cps_utils
 
@@ -46,10 +46,12 @@ def opStatusToString(oType):
 # Required Class
 #******************************************************************************
 class SystemStatusPlugin():
-    def __init__ (self, exeCmd, vsize=135, hsize=140, temppath='./templates',
+    def __init__ (self, exeCmd, vsize=135, hsize=135, temppath='./templates',
                   configFile='/etc/sys_status.conf'):
-        self.scrTemp = Template(open(os.path.join(temppath,'dial_script.xhtml')).read())
-        self.style      = open(os.path.join(temppath,'basic_style.xhtml')).read()
+        with open(os.path.join(temppath,'dial.xhtml')) as tfile:
+            self.scrTemp = Template(tfile.read())
+        with open(os.path.join(temppath,'basic_style.xhtml')) as sfile:
+            self.style = sfile.read()
         self.name       ='fan'
         self.postalarm  = True
         self.plugType   = 'dial'
@@ -57,13 +59,12 @@ class SystemStatusPlugin():
         self.fanLimit   = self.defaultLimit
         self.vsize      = vsize
         self.hsize      = hsize
-        self.caption    = 'Fan Speed'
-        self.sub_caption= 'RPM'
+        self.caption    = 'Fan'
         self.lowLimit   = 0
-        self.upLimit    = 9000
-        self.refresh    = 30
+        self.upLimit    = 10000
+        self.pullRate    = 30
         self.numsuffix  = ''
-        self.unit       = 'rpm'
+        self.unit       = 'RPM'
         self.Rmargin    = 3
         self.limit      = 0
         self.lowColor   = "e44a00"
@@ -135,27 +136,25 @@ class SystemStatusPlugin():
             self.threshold = self.data
 
     def getScripts(self):
-        return self.scrTemp.substitute(dict(name=self.name, 
-                                       vsize=self.vsize,
-                                       hsize=self.hsize,
-                                       caption=self.caption,
-                                       sub_caption=self.sub_caption,
-                                       lowLimit=self.lowLimit,
-                                       upLimit=self.upLimit,
-                                       lowColor=self.lowColor,
-                                       upColor=self.upColor,
-                                       minValue=self.lowLimit,
-                                       maxValue=self.upLimit,
-                                       numsuffix=self.numsuffix,
-                                       Rmargin=self.Rmargin,
-                                       refresh=self.refresh,
-                                       limit='fanLimit',
-                                       value='fanValue',
-                                       ))
-
+        return ''
 
     def getCodeObject(self):
-        return '<a href=\'report/%s\' title=\"click for details\"><div id="chart-%s">FAN CHART</div></a>' % (self.name, self.name)
+        self.getConfigData()
+        return (self.scrTemp.substitute(dict(name=self.name,
+                                             current_value=self.data,
+                                             width=self.vsize,
+                                             height=self.hsize,
+                                             unit=self.unit,
+                                             minVal=self.lowLimit,
+                                             maxVal=self.upLimit,
+                                             title=self.caption,
+                                             lowerAlarm=self.lowLimit,
+                                             upperAlarm=int(float(self.threshold)),
+                                             interval=self.pullRate,
+                                             ticks="['0','2K','4K','6K','8K','10K']"
+                                             )
+                                        )
+                )
 
     def getChartObject(self):
         return ""

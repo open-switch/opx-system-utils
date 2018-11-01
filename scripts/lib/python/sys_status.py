@@ -40,8 +40,8 @@ import traceback
 # CONSTANTS
 #******************************************************************************
 VER_MAJOR = 3
-VER_MINOR = 0
-VER_DEV   = 1
+VER_MINOR = 1
+VER_DEV   = 0
 SERVICE_VERSION = '%s.%s.%s' % (VER_MAJOR, VER_MINOR, VER_DEV)
 
 COLS_PER_ROW = 4
@@ -107,15 +107,42 @@ DELL_COLOR  = '0485cb'
 DELL_ADJ    = 45
 DELL_ICO    = 'dell.ico'
 DELL_SVG    = '''
-<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="90pt" height="25pt" viewBox="0 0 1300.000000 399.000000" preserveAspectRatio="xMidYMid meet">
-<g transform="translate(0.000000,399.000000) scale(0.100000,-0.100000)" fill="#0485cb" stroke="none">
-<path d="M1810 3975 c-207 -23 -359 -60 -543 -131 -166 -64 -414 -204 -401 -226 4 -7 2 -8 -5 -4 -14 9 -84 -41 -76 -55 3 -5 0 -6 -8 -4 -7 3 -59 -36 -123 -93 -105 -94 -151 -147 -146 -165 1 -5 -2 -6 -7 -3 -11 7 -117 -126 -186 -234 -27 -41 -77 -133 -111 -205 -237 -490 -263 -1039 -74 -1550 63 -170 192 -411 213 -398 6 3 7 1 3 -6 -19 -29 327 -423 355 -405 7 4 9 3 6 -3 -9 -15 138 -127 154 -117 7 4 10 3 6 -3 -8 -13 70 -66 84 -58 5 4 8 1 7 -6 -4 -17 200 -122 338 -173 283 -105 577 -149 843 -126 246 21 463 74 670 165 136 59 283 144 275 157 -4 7 -2 8 4 4 20 -12 264 173 259 197 -1 6 5 12 13 12 8 0 14 7 12 14 -1 7 1 10 6 7 12 -7 54 38 45 49 -5 4 -3 5 3 2 14 -8 106 88 179 188 276 373 405 785 392 1245 -12 396 -116 726 -334 1052 -36 54 -69 96 -73 93 -4 -3 -14 3 -21 12 -10 12 -10 14 -1 9 24 -14 11 7 -39 65 -28 32 -56 56 -62 52 -5 -3 -7 -1 -4 4 8 13 -17 36 -28 25 -5 -4 -5 -2 -2 4 7 12 -45 67 -56 59 -4 -3 -5 -2 -2 2 6 8 -64 83 -78 83 -4 0 -5 -6 -1 -12 4 -8 3 -10 -2 -5 -5 5 -9 14 -9 20 -1 7 -7 11 -14 9 -7 -1 -10 1 -7 6 7 12 -126 111 -243 180 -263 155 -562 247 -885 272 -153 12 -176 12 -326 -5z m470 -230 c169 -26 318 -72 489 -151 51 -24 98 -41 104 -37 5 3 7 1 4 -5 -9 -13 79 -65 95 -56 6 4 8 3 5 -3 -3 -5 27 -33 67 -61 88 -62 192 -155 288 -260 39 -42 75 -76 80 -74 5 1 7 -2 3 -8 -4 -6 7 -27 24 -48 16 -21 52 -74 79 -118 134 -216 210 -425 248 -684 22 -157 15 -452 -15 -593 -45 -206 -125 -407 -229 -575 -29 -46 -49 -89 -46 -94 4 -7 2 -8 -4 -4 -13 8 -75 -78 -64 -89 4 -3 2 -5 -4 -3 -16 5 -117 -109 -108 -123 4 -7 3 -9 -3 -6 -5 3 -27 -10 -49 -30 -65 -59 -147 -128 -182 -152 -18 -12 -29 -27 -26 -33 4 -6 2 -8 -4 -5 -12 8 -158 -80 -155 -92 1 -5 -3 -8 -10 -7 -22 2 -206 -87 -200 -97 3 -6 1 -7 -5 -3 -7 4 -60 -9 -119 -28 -205 -66 -472 -96 -683 -76 -224 20 -455 82 -621 166 -39 19 -75 32 -81 28 -7 -4 -8 -3 -4 4 4 7 3 12 -2 12 -5 0 -37 18 -71 40 -34 22 -67 37 -73 34 -6 -4 -8 -3 -5 3 7 12 -70 68 -93 68 -8 0 -15 5 -15 12 0 6 -36 42 -80 81 -73 63 -177 178 -249 274 -16 21 -33 35 -39 31 -5 -3 -7 -1 -3 5 3 6 -18 51 -48 100 -359 589 -331 1350 69 1922 30 42 51 80 47 84 -4 4 -2 6 4 4 14 -4 114 113 107 126 -3 5 -1 6 4 3 12 -7 36 16 28 26 -3 4 -2 5 1 3 4 -3 47 30 98 72 50 43 119 97 153 121 35 24 60 47 58 51 -3 4 1 7 8 6 6 0 73 30 147 67 342 172 702 229 1080 172z"/>
-<path d="M1565 2344 c-137 -89 -254 -163 -260 -163 -5 0 -21 24 -33 53 -29 67 -89 139 -109 132 -8 -3 -11 -2 -8 4 9 15 -75 58 -145 74 -69 17 -470 23 -470 9 0 -21 0 -800 0 -810 0 -16 328 -18 425 -4 169 25 261 99 331 269 9 22 14 19 172 -88 89 -61 167 -108 173 -105 5 4 8 2 7 -4 -4 -13 171 -133 183 -125 6 3 5 13 -3 22 -11 15 -11 15 4 4 13 -11 22 -10 50 7 18 12 33 26 33 33 1 7 7 12 14 10 19 -4 162 88 154 101 -3 6 -1 7 5 3 15 -9 174 93 165 107 -3 6 -1 7 5 3 7 -4 22 0 34 8 12 9 26 16 30 16 5 0 8 -61 8 -135 l0 -135 280 0 280 0 0 130 0 130 -135 0 -135 0 0 285 0 285 -145 0 -145 0 0 -145 0 -144 -30 -16 c-17 -9 -28 -20 -25 -25 4 -6 -1 -7 -11 -3 -13 5 -15 3 -9 -7 5 -8 4 -11 -2 -7 -13 8 -169 -91 -165 -104 1 -6 -2 -8 -7 -4 -6 3 -42 -15 -81 -40 -38 -25 -75 -45 -81 -45 -13 0 -69 32 -69 40 0 3 27 22 60 44 33 21 57 43 53 49 -3 6 -1 7 5 3 6 -3 70 33 143 81 l132 87 -23 18 c-13 11 -30 16 -37 14 -8 -3 -11 -1 -8 4 8 13 -73 63 -87 54 -7 -4 -8 -3 -4 4 16 26 -24 9 -117 -51 -54 -35 -94 -67 -90 -72 4 -4 3 -5 -4 -1 -6 3 -54 -21 -106 -54 l-95 -61 -36 22 c-20 11 -36 22 -36 24 0 2 22 17 50 35 28 18 47 37 43 43 -3 6 -1 7 5 3 6 -4 76 35 156 86 144 92 145 93 123 110 -12 10 -28 16 -35 13 -7 -3 -10 0 -7 5 8 13 -73 63 -87 54 -7 -4 -8 -3 -4 4 3 6 -1 15 -11 20 -14 7 -72 -26 -268 -154z m-586 -161 c65 -49 88 -162 45 -220 -39 -53 -81 -73 -150 -73 l-64 0 0 153 c0 85 3 157 8 161 14 15 133 -1 161 -21z"/>
-<path d="M2980 2045 l0 -415 275 0 275 0 0 130 0 130 -130 0 -130 0 0 285 0 285 -145 0 -145 0 0 -415z"/>
-<path d="M5325 3964 c-234 -23 -389 -57 -546 -119 -114 -45 -255 -125 -239 -135 8 -5 7 -9 -5 -13 -9 -4 -13 -3 -10 3 19 31 -24 0 -104 -76 -58 -55 -90 -92 -87 -101 3 -8 2 -12 -3 -8 -13 8 -54 -52 -45 -66 4 -7 3 -9 -4 -5 -13 8 -61 -74 -100 -174 -99 -251 -90 -522 25 -756 40 -82 105 -170 122 -166 7 1 9 -2 6 -9 -10 -14 76 -101 93 -94 7 2 11 1 7 -4 -9 -15 123 -107 231 -161 147 -73 378 -146 812 -255 210 -53 433 -112 495 -132 368 -116 540 -285 554 -548 10 -165 -42 -300 -161 -419 -67 -68 -128 -122 -133 -119 -1 1 -40 -16 -86 -37 -160 -75 -343 -110 -575 -110 -204 0 -354 25 -523 86 -38 14 -75 22 -82 18 -6 -4 -9 -4 -5 1 4 4 -33 31 -82 59 -243 137 -371 323 -426 620 -10 53 -23 96 -29 96 -5 0 -107 -9 -225 -20 -118 -11 -218 -20 -222 -20 -19 0 0 -179 32 -304 10 -39 32 -107 49 -151 35 -93 124 -251 139 -248 5 1 9 -5 8 -15 0 -9 5 -16 12 -14 8 1 11 -2 8 -7 -13 -20 144 -188 163 -176 7 4 10 1 9 -7 -2 -7 3 -12 10 -10 8 1 11 -2 7 -7 -8 -14 133 -111 242 -165 247 -124 533 -180 918 -180 300 -1 465 28 700 120 103 41 271 135 268 151 -1 6 4 10 11 9 20 -2 126 87 121 101 -2 7 2 10 9 7 16 -6 99 92 90 108 -4 6 -3 8 4 4 6 -4 27 17 50 51 118 174 182 381 182 586 0 168 -33 314 -102 450 -38 76 -96 157 -111 154 -7 -1 -11 4 -9 12 2 7 -5 22 -14 32 -14 16 -20 17 -33 6 -14 -10 -14 -10 -4 4 11 13 10 19 -5 33 -10 9 -22 13 -27 9 -4 -5 -5 -3 -2 3 7 13 -58 66 -163 134 -168 108 -376 182 -800 286 -146 36 -329 81 -408 100 -233 57 -480 146 -538 195 -7 6 -19 7 -25 3 -7 -4 -10 -3 -6 2 3 5 -16 31 -43 58 -146 147 -167 393 -50 576 17 26 60 76 97 111 37 35 67 67 66 70 -1 4 5 6 15 5 9 0 16 4 15 10 -1 7 3 11 10 10 7 0 50 14 97 32 117 47 249 71 425 78 258 11 458 -22 624 -102 76 -37 110 -61 170 -122 42 -41 79 -75 82 -74 3 0 6 -5 6 -11 0 -7 12 -32 28 -57 45 -71 90 -206 109 -330 l6 -35 223 17 c122 9 230 17 239 17 15 1 16 9 11 54 -11 108 -42 245 -72 322 -40 103 -116 241 -131 237 -6 -1 -9 2 -6 7 8 13 -78 117 -93 113 -7 -1 -10 2 -7 7 6 9 -10 26 -29 33 -5 1 -9 6 -8 10 4 12 -86 80 -97 73 -6 -4 -9 -1 -8 6 4 20 -142 103 -260 150 -204 80 -397 116 -657 123 -88 2 -178 2 -200 0z"/>
-<path d="M8960 3863 c-18 -32 -50 -82 -72 -111 -21 -29 -36 -57 -32 -64 4 -6 3 -8 -3 -5 -14 9 -47 -29 -37 -44 4 -7 3 -10 -4 -5 -12 7 -129 -120 -124 -136 1 -5 -1 -7 -6 -4 -13 8 -143 -114 -136 -126 4 -7 2 -8 -4 -4 -13 8 -104 -63 -96 -75 2 -4 -1 -11 -7 -15 -8 -4 -9 -3 -5 4 4 7 5 12 2 12 -11 0 -101 -73 -99 -80 1 -4 -3 -7 -10 -7 -7 0 -43 -20 -82 -45 -38 -25 -85 -53 -103 -62 -18 -9 -30 -21 -27 -25 2 -5 -1 -8 -8 -7 -6 0 -60 -24 -119 -54 l-108 -55 0 -224 c0 -174 3 -222 13 -218 167 66 514 248 509 267 -1 6 2 9 8 5 14 -9 171 95 163 108 -3 6 -1 7 5 3 19 -11 197 128 186 145 -3 5 1 6 9 3 8 -3 20 2 27 11 7 8 16 15 21 15 5 0 9 -644 9 -1495 l0 -1495 230 0 230 0 0 1920 0 1920 -149 0 -149 0 -32 -57z"/>
-<path d="M11625 3914 c-16 -2 -63 -9 -103 -15 -121 -18 -339 -100 -325 -122 4 -6 1 -7 -6 -3 -15 10 -94 -41 -86 -54 3 -5 0 -7 -8 -4 -21 8 -202 -169 -192 -186 5 -8 4 -11 -3 -6 -16 10 -106 -122 -168 -249 -66 -137 -125 -311 -158 -475 -98 -481 -93 -1245 10 -1710 50 -223 144 -463 234 -596 53 -79 101 -135 110 -129 5 3 12 0 16 -6 4 -8 3 -9 -4 -5 -7 4 -12 3 -12 -3 0 -15 150 -141 214 -180 254 -154 608 -200 926 -120 99 25 262 97 253 112 -3 6 -1 7 6 3 14 -9 74 32 66 45 -4 5 0 6 8 3 21 -8 202 169 192 186 -5 8 -4 11 2 7 14 -9 37 19 27 34 -4 7 -3 9 4 5 16 -10 86 99 147 228 156 329 219 711 218 1311 -1 517 -41 802 -155 1115 -40 111 -117 266 -176 355 -47 70 -197 235 -214 235 -5 0 -6 -5 -2 -12 4 -7 3 -8 -5 -4 -6 4 -9 12 -6 17 8 12 -145 111 -162 104 -8 -2 -12 -1 -8 4 7 13 -141 69 -244 92 -83 19 -327 33 -396 23z m240 -389 c98 -18 202 -69 286 -139 37 -30 70 -52 74 -48 4 4 5 2 3 -4 -1 -6 22 -45 53 -87 113 -151 183 -390 219 -747 18 -174 24 -718 11 -917 -27 -390 -92 -685 -182 -828 -16 -25 -27 -51 -23 -56 3 -5 1 -8 -3 -7 -11 4 -114 -117 -107 -126 2 -3 1 -4 -2 -1 -4 2 -33 -16 -65 -41 -194 -149 -436 -174 -653 -68 -124 61 -263 207 -331 348 -69 145 -119 368 -147 651 -17 173 -17 850 0 1005 40 367 99 592 197 755 19 31 32 62 28 68 -3 5 -1 7 4 4 15 -9 47 29 37 45 -4 7 -3 10 1 5 11 -9 46 23 39 35 -3 4 -2 7 3 6 14 -5 103 64 96 75 -3 6 -1 7 5 3 6 -3 37 7 69 23 32 16 83 34 113 40 30 6 64 13 75 15 45 9 128 5 200 -9z"/>
-</g></svg>'''
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+x="0px" y="0px" width="60px" height="60px" viewBox="0 0 60 60" enable-background="new 0 0 60 60" xml:space="preserve">  
+<image id="image0" width="60" height="60" x="0" y="0" xlink:href="data:image/png;base64,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
+NDItMDc6MDB89ptCAAAAAElFTkSuQmCC" />
+</svg>'''
 
 #******************************************************************************
 # IMAGES and Attributes for the header for OPX
@@ -144,6 +171,28 @@ fill="#000000" stroke="none">
 </svg>
 '''
 
+LOGO_IMG = '''<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+ "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+ width="200.000000pt" height="200.000000pt" viewBox="0 0 200.000000 200.000000"
+ preserveAspectRatio="xMidYMid meet">
+<metadata>
+Created by potrace 1.15, written by Peter Selinger 2001-2017
+</metadata>
+<g transform="translate(0.000000,200.000000) scale(0.100000,-0.100000)"
+fill="#000000" stroke="none">
+<path d="M1045 1980 c-135 -35 -237 -92 -338 -189 -221 -210 -293 -529 -187
+-823 183 -504 842 -662 1236 -295 166 155 243 335 244 568 0 350 -232 654
+-566 739 -103 27 -289 27 -389 0z m345 -206 c133 -37 273 -150 337 -269 114
+-216 82 -466 -82 -643 -99 -107 -223 -168 -366 -179 -305 -23 -574 212 -595
+522 -20 279 186 535 469 584 64 12 164 5 237 -15z"/>
+<path d="M277 442 c-152 -152 -277 -281 -277 -287 0 -13 142 -155 155 -155 5
+0 136 126 290 280 l280 280 -80 80 c-44 44 -82 80 -85 80 -3 0 -130 -125 -283
+-278z"/>
+</g>
+</svg>
+'''
 #******************************************************************************
 # Generic settings for images/atrributes
 #******************************************************************************
@@ -541,7 +590,6 @@ class WebHookHandler(BaseHTTPRequestHandler):
         finalDic['page_width']  = TABLE_CELL_W * int(self.context.pluginPerRow)
         finalDic['extras']      = self.getExtraInfo()
         finalDic['url']         = SET_URL
-        finalDic['statusValue'] = self.context.overallStatus
         finalDic['refreshRate'] = self.context.args.frequency
         finalDic['company']     = COMPANY
         finalDic['version']     = SERVICE_VERSION
@@ -553,8 +601,8 @@ class WebHookHandler(BaseHTTPRequestHandler):
         global working_dir
 
         with open(os.path.join(working_dir, 'templates/main.xhtml')) as main_temp:
-           tmpData = main_temp.read()
-
+            tmpData = main_temp.read()
+ 
         widgetCount = 0
         chartCount = 0
         #figure out the largest number of either charts or dials/bubls

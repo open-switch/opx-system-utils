@@ -14,22 +14,24 @@
 # See the Apache Version 2.0 License for specific language governing
 # permissions and limitations under the License.
 #
-import os, sys, time, json
+import os, time, json
 from string import Template
 try:
     import multiprocessing
 except:
+    # just ignore and assume 2 for VM
     pass
-
 
 #******************************************************************************
 # Required Class
 #******************************************************************************
 class SystemStatusPlugin():
-    def __init__ (self, exeCmd, vsize=135, hsize=140, temppath='./templates',
+    def __init__ (self, exeCmd, vsize=135, hsize=135, temppath='./templates',
                   configFile='/etc/sys_status.conf'):
-        self.scrTemp = Template(open(os.path.join(temppath,'dial_script.xhtml')).read())
-        self.style = open(os.path.join(temppath,'basic_style.xhtml')).read()
+        with open(os.path.join(temppath,'dial.xhtml')) as tfile:
+            self.scrTemp = Template(tfile.read())
+        with open(os.path.join(temppath,'basic_style.xhtml')) as sfile:
+            self.style = sfile.read()
         self.name       ='cpu'
         self.postalarm  = True
         self.plugType   = 'dial'
@@ -38,10 +40,10 @@ class SystemStatusPlugin():
         self.unit       ='%'
         self.vsize      = vsize
         self.hsize      = hsize
-        self.caption    = 'CPU'
+        self.caption    = 'CPU Load'
         self.sub_caption= '% load [15min]'
         self.lowLimit   = 0
-        self.upLimit    = 300
+        self.upLimit    = 100
         self.limit      = 0
         self.pullRate   = 10
         self.timechk    = 0
@@ -89,7 +91,8 @@ class SystemStatusPlugin():
             return
         load = {'1MIN':0, '5MIN':1, '15MIN':2}
         #/proc/loadavg: 1min 5min 15min count pid
-        raw_data = open('/proc/loadavg').read().split()
+        with open('/proc/loadavg') as f:
+            raw_data = f.read().split()
         self.data = 100*(float(raw_data[load['15MIN']])/self.num_cores)
         if threshold is not None:
             self.threshold = threshold
@@ -99,26 +102,25 @@ class SystemStatusPlugin():
 
 
     def getScripts(self):
-        return self.scrTemp.substitute(dict(name=self.name, 
-                                       vsize=self.vsize,
-                                       hsize=self.hsize,
-                                       caption=self.caption,
-                                       sub_caption=self.sub_caption,
-                                       lowLimit=self.lowLimit,
-                                       upLimit=self.upLimit/self.num_cores if self.upLimit/self.num_cores > 100 else 100,
-                                       minValue=self.lowLimit,
-                                       maxValue=self.upLimit/self.num_cores if self.upLimit/self.num_cores > 100 else 100,
-                                       lowColor=self.lowColor,
-                                       upColor=self.upColor,
-                                       numsuffix=self.numsuffix,
-                                       Rmargin=self.Rmargin,
-                                       refresh=self.pullRate,
-                                       limit='cpuLimit',
-                                       value='cpuValue',
-                                       ))
+        return ''
 
     def getCodeObject(self):
-        return '<a href=\'report/%s\' title=\"click for details\"><div id="chart-%s">CPU CHART</div></a>' % (self.name, self.name)
+        self.getConfigData()
+        return (self.scrTemp.substitute(dict(name=self.name,
+                                             current_value=self.data,
+                                             width=self.vsize,
+                                             height=self.hsize,
+                                             unit=self.unit,
+                                             minVal=self.lowLimit,
+                                             maxVal=self.upLimit,
+                                             title=self.caption,
+                                             lowerAlarm=int(float(self.threshold)),
+                                             upperAlarm=self.upLimit,
+                                             interval=self.pullRate,
+                                             ticks="['0','20','40','60','80','100']"
+                                             )
+                                        )
+                )
 
     def getChartObject(self):
         return ""
@@ -126,7 +128,8 @@ class SystemStatusPlugin():
     def getJsonDetail(self):
         self.getConfigData()
         load ={'1MIN':0, '5MIN':1, '15MIN':2}
-        raw_data = open('/proc/loadavg').read().split()
+        with open('/proc/loadavg') as f:
+            raw_data = f.read().split()
         jsonMsg = {'STATUS'     : ['ALARM','CLEAR'][int(self.data > self.threshold)],
                    'THRESHOLDS' : self.threshold,
                    'VALUE_UNIT'  : self.unit,
@@ -145,7 +148,8 @@ class SystemStatusPlugin():
         self.getConfigData()
         load ={'1MIN':0, '5MIN':1, '15MIN':2}
         #/proc/loadavg: 1min 5min 15min count pid
-        raw_data = open('/proc/loadavg').read().split()
+        with open('/proc/loadavg') as f:
+            raw_data = f.read().split()
         allData = '''
             <html><head>%s<title>CPU Status</title></head><body>
             <span style="font-family:Calibri; font-size: 34px; color: #0485cb;">CPU Information (Cores: %s)</span><br>
@@ -162,7 +166,7 @@ class SystemStatusPlugin():
             <legend>Configurations</legend>
             <table class="main-table">
              <tbody>
-            <tr><td>CPU Load Threshold (%s):</td><td><input name="cpuLimit" type="input" value="%s"/></td></tr>
+            <tr><td>CPU Load Threshold (%s):</td><td><input name="%sLimit" type="input" value="%s"/></td></tr>
             </tbody>
             </table>
             <br>&nbsp;Plugin Enabled&nbsp;<input type="radio" id="enable_yes" name="cpu_enabled" value="True" %s/>Yes
@@ -170,7 +174,7 @@ class SystemStatusPlugin():
             <p><input name="Submit"  type="submit" value="Commit Changes"/></p>
             </form>
             </body></html>
-            ''' % (self.unit, self.threshold,
+            ''' % (self.unit, self.name, self.threshold,
                    'checked="checked"' if self.cpu_enabled == True else '',
                    'checked="checked"' if self.cpu_enabled == False else '')
         return allData

@@ -14,7 +14,7 @@
 # See the Apache Version 2.0 License for specific language governing
 # permissions and limitations under the License.
 #
-import os, sys, time, json
+import os, time, json
 from string import Template
 import cps, cps_utils
 
@@ -49,17 +49,19 @@ def ftPresent(present):
 # Required Class
 #******************************************************************************
 class SystemStatusPlugin():
-    def __init__ (self, exeCmd, vsize=135, hsize=140, temppath='./templates',
+    def __init__ (self, exeCmd, vsize=135, hsize=135, temppath='./templates',
                   configFile='/etc/sys_status.conf'):
-        self.scrTemp = Template(open(os.path.join(temppath,'bulb_script.xhtml')).read())
-        self.style      = open(os.path.join(temppath,'basic_style.xhtml')).read()
+        with open(os.path.join(temppath,'alarm.xhtml')) as tfile:
+            self.scrTemp = Template(tfile.read())
+        with open(os.path.join(temppath,'basic_style.xhtml')) as sfile:
+            self.style = sfile.read()
         self.name       ='power'
         self.postalarm  = True
         self.plugType   = 'bulb'
         self.defaultLimit = None
         self.vsize      = vsize
         self.hsize      = hsize
-        self.caption    = 'Power'
+        self.caption    = 'Power<br>Status'
         self.tooltext   = 'click for details'
         self.lowLimit     = 0
         self.upLimit      = 100
@@ -150,29 +152,18 @@ class SystemStatusPlugin():
         return numFaults, total
 
     def getScripts(self):
-        return self.scrTemp.substitute(dict(name=self.name, 
-                                       vsize=self.vsize,
-                                       hsize=self.hsize,
-                                       caption=self.caption,
-                                       tooltext=self.tooltext,
-                                       lowLimit=self.lowLimit,
-                                       upLimit=self.upLimit,
-                                       redLabel=self.redLabel,
-                                       redLlimit=self.redLlimit,
-                                       redUlimit=self.redUlimit,
-                                       greenLabel=self.greenLabel,
-                                       greenLlimit=self.greenLlimit,
-                                       greenUlimit=self.greenUlimit,
-                                       yellowLabel=self.yellowLabel,
-                                       yellowLlimit=self.yellowLlimit,
-                                       yellowUlimit=self.yellowUlimit,
-                                       fetch=self.fetch,
-                                       pullRate=self.pullRate*1000,
-                                       value='powerValue',
-                                       ))
+        return ''
 
     def getCodeObject(self):
-        return '<a href=\'report/%s\' title=\"click for details\"><div id="chart-%s">FAN CHART</div></a>' % (self.name, self.name)
+        self.getConfigData()
+        return (self.scrTemp.substitute(dict(name=self.name,
+                                             width=self.vsize,
+                                             height=self.hsize,
+                                             title=self.caption,
+                                             interval=self.pullRate,
+                                             )
+                                        )
+                )
 
     def getChartObject(self):
         return ""

@@ -5,10 +5,6 @@
 <meta http-equiv="expires" content="Sat, 31 Oct 2014 00:00:00 GMT">
 <meta http-equiv="pragma" content="no-cache">
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<!-- SCRIPT Section -->
-<script type="text/javascript" src="scripts/jquery.min.js"></script>
-<script type="text/javascript" src="scripts/fusioncharts.js"></script>
-<script type="text/javascript" src="scripts/fusioncharts.theme.fint.js"></script>
 <!-- Dispatch Time of day -->
 <script type="text/javascript"> 
     function reloadonce(){
@@ -44,70 +40,6 @@
 
         tt=display_c();
     }
-</script>
-<!-- widget for overall status -->
-<script type="text/javascript">
-  FusionCharts.ready(function(){
-    var fusionStatus = new FusionCharts({
-    type: 'bulb',
-    renderAt: 'chart-status',
-    id: 'statusChart',
-    width: '140',
-    height: '135',
-    dataFormat: 'json',
-    dataSource: {
-        "chart": {
-            "caption": "Overall Status",
-            "upperlimit": "100",
-            "lowerlimit": "-60",
-            "captionPadding": "10",
-            "showshadow": "1",
-            "showvalue": "1",
-            "useColorNameAsValue": "1",
-            "placeValuesInside": "1",
-            "valueFontSize": "13",
-            //Tooltext
-            "plottooltext": "Status. Click for more detail.",
-            //Theme
-        },
-        "colorrange": {
-            "color": [{
-                "minvalue": "1",
-                "maxvalue": "100",
-                "label": "ALARM",
-                "code": "#ff0000"
-            }, {
-                "minvalue": "-100",
-                "maxvalue": "-1",
-                "label": "WARNING",
-                "code": "#ff9900"
-            }, {
-                "minvalue": "0",
-                "maxvalue": "0",
-                "label": "CLEAR",
-                "code": "#00ff00"
-            }]
-        },
-        "value": "$${statusValue}"
-    },
-    "events": {
-        "rendered": function(evtObj, argObj) {
-            evtObj.sender.chartInterval = setInterval(function() {
-                xmlHttp = new XMLHttpRequest();
-                xmlHttp.open( "GET", 'fetchoverall', false );
-                xmlHttp.send( null );
-                var num = xmlHttp.responseText;
-                FusionCharts("statusChart").feedData("&value=" + num);
-            }, 10000);
-        },
-        "disposed": function(evt, arg) {
-            clearInterval(evt.sender.chartInterval);
-        }
-    }
-}
-);
-    fusionStatus.render();
-});
 </script>
 ${GageObjs}
 <!-- fucntion to request PID data from URL -->
@@ -195,7 +127,41 @@ $${logo}&nbsp;<span style="line-height:$${height}px; vertical-align: bottom;">$$
 <hr>
 <table style="width=\"$${width}\"">
 <tr>
-  <td><a href='report/overall'><div id="chart-status">STATUS!</div></a></td>
+  <td>  <a href='report/overall' title="click for details">
+        <div id="overall_obj" style="display:block;
+            width:135px;height:135px;background:#F3F3F3;padding-bottom:5px;
+            border-style:solid;border-width:1px;border-color:grey;
+            position:relative;">
+ 		<div id="overall_circle" style="
+          background: black; border-radius: 100%;
+          height: 100px; width: 100px;
+          background: radial-gradient(circle at 100px 100px, #2AB807, #000);
+          position:absolute; margin: 18px">
+        <text style="position:absolute; margin: 28px; color:white;font: 15px arial, sans-serif; text-align: center;">Overall<br>Status</text></div></div></a>
+        <script>
+        setInterval(function() {
+            xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                   // Action to be performed when the document is read;
+                }
+            };
+            xmlHttp.open( "GET", "fetchoverall", false );
+            xmlHttp.send( null );
+            var num = xmlHttp.responseText;
+            var newNum = num.split("=")[1];
+            var dom = document.getElementById('overall_circle');
+        	if (newNum == "0") {
+        		dom.style.backgroundImage =  'radial-gradient(circle at 100px 100px, #00ff00, #000)';
+            }
+            else if (newNum == "-1") {
+                dom.style.backgroundImage =  'radial-gradient(circle at 100px 100px, #ff9900, #000)';
+            }
+            else {
+        		dom.style.backgroundImage =  'radial-gradient(circle at 100px 100px, #FF0000, #000)';
+            }
+        }, 5000);
+        </script></td>
   $${blank_cells}
   <td valign="top"><span style="font-size: 11px;"><span class="right" id='ct'></span>
                                         <br><strong>Host</strong>:<span class="right">$${host}</span>

@@ -14,7 +14,7 @@
 # See the Apache Version 2.0 License for specific language governing
 # permissions and limitations under the License.
 #
-import os, sys, time, json
+import os, time, json
 from string import Template
 
 
@@ -37,9 +37,9 @@ def get_memory(unit='M'):
 # Required Class
 #******************************************************************************
 class SystemStatusPlugin():
-    def __init__ (self, exeCmd, vsize=135, hsize=140, temppath='./templates',
+    def __init__ (self, exeCmd, vsize=135, hsize=135, temppath='./templates',
                   configFile='/etc/sys_status.conf'):
-        with open(os.path.join(temppath,'dial_script.xhtml'), 'r') as f:
+        with open(os.path.join(temppath,'dial.xhtml'), 'r') as f:
             self.scrTemp = Template(f.read())
         with open(os.path.join(temppath,'basic_style.xhtml'), 'r') as f:
             self.style = f.read()
@@ -50,13 +50,12 @@ class SystemStatusPlugin():
         self.memLimit   = self.defaultLimit
         self.vsize      = vsize
         self.hsize      = hsize
-        self.caption    = 'Memory'
-        self.sub_caption= '% free'
+        self.caption    = 'Memory Free'
+        self.sub_caption= '%'
         self.lowLimit   = 0
         self.upLimit    = 100
         self.limit      = 0
-        self.numsuffix  = '%'
-        self.unit       = self.numsuffix
+        self.unit       = '%'
         self.Rmargin    = 5
         self.lowColor   = "e44a00"
         self.upColor    = "6baa01"
@@ -67,6 +66,7 @@ class SystemStatusPlugin():
         self.threshold  = self.memLimit
         self.pullRate   = 10
         self.timechk    = 0
+        self.pMem       = 0.0
         self.mem_enabled = True
         self.configFile = configFile
         self.configs    = [attr for attr in dir(self) if not callable(getattr(self, attr)) and not attr.startswith("__")]
@@ -106,23 +106,25 @@ class SystemStatusPlugin():
         self.timechk = time.time() + self.pullRate
 
     def getScripts(self):
-        return self.scrTemp.substitute(dict(name=self.name, 
-                                       vsize=self.vsize,
-                                       hsize=self.hsize,
-                                       caption=self.caption,
-                                       sub_caption=self.sub_caption,
-                                       lowLimit=self.lowLimit,
-                                       upLimit=self.upLimit,
-                                       lowColor=self.lowColor,
-                                       upColor=self.upColor,
-                                       minValue=self.lowLimit,
-                                       maxValue=self.upLimit,
-                                       numsuffix=self.numsuffix,
-                                       Rmargin=self.Rmargin,
-                                       refresh=self.pullRate,
-                                       limit='memLimit',
-                                       value='memValue',
-                                       ))
+        return ''
+
+    def getCodeObject(self):
+        self.getConfigData()
+        return (self.scrTemp.substitute(dict(name=self.name,
+                                             current_value=self.pMem,
+                                             width=self.vsize,
+                                             height=self.hsize,
+                                             unit=self.unit,
+                                             minVal=self.lowLimit,
+                                             maxVal=self.upLimit,
+                                             title=self.caption,
+                                             lowerAlarm=self.lowLimit,
+                                             upperAlarm=int(float(self.threshold)),
+                                             interval=self.pullRate,
+                                             ticks="['0','20','40','60','80','100']"
+                                             )
+                                        )
+                )
 
     def getJsonDetail(self):
         self.getConfigData()
@@ -168,9 +170,6 @@ class SystemStatusPlugin():
                    'checked="checked"' if self.mem_enabled else '',
                    'checked="checked"' if not self.mem_enabled else '')
         return allData
-
-    def getCodeObject(self):
-        return '<a href=\'report/%s\' title=\"click for details\"><div id="chart-%s">MEM CHART</div></a>' % (self.name,self.name)
 
     def getChartObject(self):
         return ""
