@@ -1281,12 +1281,12 @@ class SysStatusDaemon(ServiceDaemon):
             except:
                 self.debugLog('%s' % (self.modIns[m.__name__].getAlarmDetail()))
             try:
-                threshold = eval('self.%sLimit' % modName)
+                threshold = self.modIns[m.__name__].threshold
             except Exception, e:
                 self.debugLog('EXCEPTION: access %s: %s' % (modName, e), 1)
                 threshold = 0
             try:
-                a,v = self.modIns[m.__name__].getAlarm(threshold)
+                a,v = self.modIns[m.__name__].getAlarm(float(threshold))
                 #exec('self.%s_alarm=%s' % (modName, a))
                 _set_value(self, '%s_alarm' % modName, a, str)
                 #exec('self.%sValue=%s' % (modName, v))
@@ -1452,7 +1452,7 @@ def get_sensor(sensor=None, stype=None, host='http://127.0.0.1', port=PORT):
             if sensor == modInst[m.__name__].getDesc():
                 retDict['threshold'] = modInst[m.__name__].defaultLimit
                 retDict['description'] = modInst[m.__name__].getInfo()
-                a, v = modInst[m.__name__].getAlarm(retDict['threshold'])
+                a, v = modInst[m.__name__].getAlarm(float(retDict['threshold']))
                 retDict['value'] = v
                 retDict['fault-state'] =  a
                 break

@@ -81,6 +81,9 @@ class SystemStatusPlugin():
     def getConfigData(self):
         res=False
         json_config = '/etc/opt/dell/os10/env-tmpctl/config.json'
+        if not os.path.exists(json_config):
+            json_config = '/etc/opx/env-tmpctl/config.json'
+
         if os.path.exists(json_config):
             file = open(json_config, "rb")
             data = json.load(file)
@@ -206,7 +209,7 @@ class SystemStatusPlugin():
             <legend>Configurations</legend>
             <table class="main-table">
              <tbody>
-            <tr><td>Tempreture Threshold (%s):</td><td><input name="tempLimit" type="input" value="%s"/></td></tr>
+            <tr><td>Tempreture Threshold (%s):</td><td>%s [set in config.json in /etc/...]</td></tr>
             </tbody>
             </table>
             <br>&nbsp;Plugin Enabled&nbsp;<input type="radio" id="enable_yes" name="temp_enabled" value="True" %s/>Yes
