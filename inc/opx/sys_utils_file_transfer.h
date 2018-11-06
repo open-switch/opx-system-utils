@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Dell Inc.
+ * Copyright (c) 2018 Dell Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -19,9 +19,9 @@
  *      @brief  Retrieves (download) a file from a remote source.
  *   @internal
  *
- *     Created  07/01/2016
+ *     Created  11/6/2018
  *     Company  DELL
- *   Copyright  Copyright (c) 2016
+ *   Copyright  Copyright (c) 2018
  *
  * =====================================================================================
  */
