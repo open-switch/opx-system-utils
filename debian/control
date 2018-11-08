@@ -18,19 +18,28 @@ Vcs-Git: https://github.com/open-switch/opx-system-utils.git
 
 Package: libopx-system-utils1
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, libopx-common1 (>= 1.4.0), libcurl3-nss
+Depends: ${shlibs:Depends},
+ ${misc:Depends},
+ libcurl3-nss,
+ libopx-common1 (>= 1.4.0),
 Description: This package contains system utilities.
  OPX system utilities for monitoring equipment health.
 
 Package: libopx-system-utils-dev
 Architecture: any
 Section: libdevel
-Depends: ${misc:Depends}, libopx-common-dev (>= 1.4.0), libopx-system-utils1 (=${binary:Version})
+Depends: ${misc:Depends},
+ libopx-common-dev (>= 1.4.0),
+ libopx-system-utils1 (=${binary:Version}),
 Description: This package contains system utilities.
  OPX system utilities for monitoring equipment health.
 
 Package: opx-system-utils
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, python, ${python:Depends}, python-requests
+Depends: ${shlibs:Depends},
+ ${misc:Depends},
+ ${python:Depends},
+ python,
+ python-requests,
 Description: This package contains system utilities
  OPX system utilities for monitoring equipment health.
