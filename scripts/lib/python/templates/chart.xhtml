@@ -1,0 +1,80 @@
+<script>
+		var ctx = document.getElementById("${name}");
+        var ${name} = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [${timestamps}],
+                datasets: [${dataset}
+                ]
+            },
+            options: {
+                legend: {
+                    display: true,
+                    position: '${position}',
+                    labels: {
+                        boxWidth: ${width},
+                        fontColor: '${l_color}',
+                        fontSize: 10,
+                        padding: 6,
+                    }
+                },
+                layout: {
+                	padding: {
+                      left: 30,
+                      right: 0,
+                      top: 0,
+                      bottom: 0
+                   }
+                },
+                responsive: true,
+				hoverMode: 'index',
+				stacked: false,
+				title: {
+						display: true,
+						text: '${caption} - ${sub_caption}'
+					},
+                scales: {
+                    yAxes: [{
+                    	id: '${yAxis2Title}',
+                		type: 'linear',
+                		position: 'left',
+                        scaleLabel: [{
+                        	display: true, 
+                            labelString: "${yAxis2Title}",
+                            fontColor: '#666'
+                            }],
+                        ticks: {
+                            suggestedMin: ${yAxis2Min},
+                            suggestedMax: ${yAxis2Max},
+                            callback: function(value, index, values) {
+                                return value + '${yAxis2Prefix}';
+                            }
+                        }
+                    },{
+                		id: '${yAxis1Title}',
+                		type: 'linear',
+                		position: 'right',
+                        scaleLabel: [{
+                        	display: true, 
+                            labelString: "${yAxis1Title}",
+                            fontColor: '#666'
+                            }],
+                        ticks: {
+                            suggestedMin: ${yAxis1Min},
+                            suggestedMax: ${yAxis1Max},
+                            callback: function(value, index, values) {
+                                return value + '${yAxis1Prefix}';
+                            }
+                        }
+                    }],
+                    xAxes: [{
+                		scaleLabel: [{
+                        	display: true, 
+                            labelString: "${xAxis}",
+                            fontColor: '#666'
+                            }]
+                    }]
+     			}
+            }
+        });
+</script>

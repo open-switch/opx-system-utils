@@ -1,0 +1,46 @@
+Source: opx-system-utils
+Section: net
+Priority: optional
+Maintainer: Dell EMC <ops-dev@lists.openswitch.net>
+Build-Depends: debhelper (>= 9),
+ autotools-dev,
+ dh-autoreconf,
+ dh-python,
+ dh-systemd,
+ libcurl4-openssl-dev,
+ libopx-common-dev (>= 1.4.0),
+ libsystemd-dev,
+ pkg-config,
+ python-dev,
+ python-requests,
+Standards-Version: 3.9.8
+Vcs-Browser: https://github.com/open-switch/opx-system-utils
+Vcs-Git: https://github.com/open-switch/opx-system-utils.git
+
+Package: libopx-system-utils1
+Architecture: any
+Depends: ${shlibs:Depends},
+ ${misc:Depends},
+ libcurl3,
+ libopx-common1 (>= 1.4.0),
+Description: This package contains system utilities.
+ OPX system utilities for monitoring equipment health.
+
+Package: libopx-system-utils-dev
+Architecture: any
+Section: libdevel
+Depends: ${misc:Depends},
+ libopx-common-dev (>= 1.4.0),
+ libopx-system-utils1 (=${binary:Version}),
+Description: This package contains system utilities.
+ OPX system utilities for monitoring equipment health.
+
+Package: opx-system-utils
+Architecture: any
+Depends: ${shlibs:Depends},
+ ${misc:Depends},
+ ${python:Depends},
+ python,
+ python-requests,
+Description: This package contains system utilities
+ OPX system utilities for monitoring equipment health.

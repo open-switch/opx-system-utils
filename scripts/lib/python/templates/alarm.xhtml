@@ -1,0 +1,32 @@
+<a href='report/${name}' title="click for details">
+        <div id="${name}_obj" style="display:block;
+            width:135px;height:135px;background:#F3F3F3;padding-bottom:5px;
+            border-style:solid;border-width:1px;border-color:grey;
+            position:relative;">
+ 		<div id="${name}_circle" style="
+          background: black; border-radius: 100%;
+          height: 100px; width: 100px;
+          background: radial-gradient(circle at 100px 100px, #2AB807, #000);
+          position:absolute; margin: 18px">
+        <text style="position:absolute; margin: 28px; color:white;font: 15px arial, sans-serif; text-align: center;">${title}</text></div></div></a>
+        <script>
+        setInterval(function() {
+            xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                   // Action to be performed when the document is read;
+                }
+            };
+            xmlHttp.open( "GET", "data/${name}", false );
+            xmlHttp.send( null );
+            var num = xmlHttp.responseText;
+            var newNum = num.split("=")[1];
+            var dom = document.getElementById('${name}_circle');
+        	if (newNum == "0") {
+        		dom.style.backgroundImage =  'radial-gradient(circle at 100px 100px, #2AB807, #000)';
+                }
+            else {
+        		dom.style.backgroundImage =  'radial-gradient(circle at 100px 100px, #FF3333, #000)';
+                    }
+        }, ${interval} * 1000);
+        </script>

@@ -1,0 +1,15 @@
+[Unit]
+Description=System Tool Service
+After=opx-cps.service
+Wants=opx-cps.service
+OnFailure=service_onfailure@%n.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+EnvironmentFile=/etc/opx/opx-environment
+ExecStart=/usr/bin/python /usr/lib/opx/sys-utils/sys_status.py start --opx
+ExecStop=/usr/bin/python /usr/lib/opx/sys-utils/sys_status.py stop
+
+[Install]
+WantedBy=multi-user.target

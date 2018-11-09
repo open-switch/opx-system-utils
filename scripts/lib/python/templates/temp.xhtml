@@ -1,0 +1,80 @@
+        <script type="text/javascript" src="scripts/gauge.min.js"></script>
+        <a href='report/${name}' title="click for details">
+        <canvas id="${name}_dial" style="width:140px;height:132px;background:#F3F3F3;padding-bottom:5px;border-style:solid;border-width:1px;border-color:grey"></canvas></a>
+        <script>
+            var ${name}_dial = new RadialGauge({
+            renderTo: '${name}_dial',
+            width: ${width},
+            height: ${height},
+            units: '${unit}',
+            title: "${title}",
+            minValue: ${minVal},
+            maxValue: ${maxVal},
+            majorTicks: ${ticks},
+            minorTicks: 2,
+            strokeTicks: true,
+            highlights: [
+                {
+                    "from": ${minVal},
+                    "to": ${lowerAlarm},
+                    "color": "rgba(0,0, 255, .3)"
+                },
+                {
+                    "from": ${upperAlarm},
+                    "to": ${maxVal},
+                    "color": "rgba(255, 0, 0, .3)"
+                }
+            ],
+            ticksAngle: 225,
+            startAngle: 67.5,
+            colorMajorTicks: "#ddd",
+            colorMinorTicks: "#ddd",
+            colorTitle: "#eee",
+            colorUnits: "#ccc",
+            colorNumbers: "#eee",
+            colorPlate: "#222",
+            borderShadowWidth: 0,
+            borders: true,
+            needleType: "arrow",
+            needleWidth: 2,
+            needleCircleSize: 7,
+            needleCircleOuter: true,
+            needleCircleInner: false,
+            animationDuration: 1500,
+            animationRule: "linear",
+            colorBorderOuter: "#333",
+            colorBorderOuterEnd: "#111",
+            colorBorderMiddle: "#222",
+            colorBorderMiddleEnd: "#111",
+            colorBorderInner: "#111",
+            colorBorderInnerEnd: "#333",
+            colorNeedleShadowDown: "#333",
+            colorNeedleCircleOuter: "#333",
+            colorNeedleCircleOuterEnd: "#111",
+            colorNeedleCircleInner: "#111",
+            colorNeedleCircleInnerEnd: "#222",
+            valueBoxBorderRadius: 0,
+            colorValueBoxRect: "#222",
+            colorValueBoxRectEnd: "#333",
+            fontNumbersSize: 25,
+            fontTitleSize: 30,
+            fontUnitsSize: 35,
+            fontValueSize: 35
+        });
+        ${name}_dial.draw();
+        ${name}_dial.value = "${current_value}";
+
+        setInterval(function() {
+            xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                   // Action to be performed when the document is read;
+                }
+            };
+            xmlHttp.open( "GET", "data/${name}", false );
+            xmlHttp.send( null );
+            var num = xmlHttp.responseText;
+            var newNum = num.split("=");
+            ${name}_dial.value = newNum[1].toString();
+        }, ${interval} * 1000);
+        </script>
